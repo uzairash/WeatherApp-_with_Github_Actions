@@ -45,4 +45,4 @@ jobs:
         cd 
         cd .ssh
         pwd
-        ssh -o StrictHostKeyChecking=no -i $EC2_USERNAME@$EC2_URL "echo "hello world" >> new_file.txt"
+        ssh -o StrictHostKeyChecking=no -i $EC2_USERNAME@$EC2_URL "echo "hello-world" >> new_file.txt"
