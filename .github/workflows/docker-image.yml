@@ -22,18 +22,20 @@ jobs:
   #         push: true
   #         tags: uzair102/u_repo:image_from_github_actions_v1
   
- deploy_to_ec2:
-  #needs: push_to_registry
-  name: deploy_to_EC2
-  runs-on: ubuntu-latest
-  env:
-    EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-    EC2_URL: ${{ secrets.EC2_URL }}
-    EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
-  steps:
-  - name: SSH to EC2 instance
-    run: |
-      mkdir -p ~/.ssh
-      echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/App_instance_ssh.pem
-      chmod 600 ~/.ssh/App_instance_ssh.pem
-      ssh -o StrictHostKeyChecking=no -i ~/.ssh/App_instance_ssh.pem $EC2_USERNAME@$EC2_URL
+  deploy_to_ec2:
+    #needs: push_to_registry
+    name: deploy_to_ec2
+    runs-on: ubuntu-latest
+    env:
+      EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      EC2_URL: ${{ secrets.EC2_URL }}
+      EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+    steps:
+    - name: Setup SSH for EC2
+      uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
+      with:
+          EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
+          EC2_URL: $EC2_URL
+    # then you can run commands/scripts directly on the EC2 instance e.g.:
+    - name: Create a new file on the EC2 instance with "hello-world"
+      run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "echo "hello-world" >> new_file.txt"
