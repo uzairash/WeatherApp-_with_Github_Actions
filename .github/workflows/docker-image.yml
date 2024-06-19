@@ -31,12 +31,12 @@ jobs:
       EC2_URL: ${{ secrets.EC2_URL }}
       EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
     steps:
-    - name: Get EC2 Instance Public IP (optional, for verification)
-      run: ssh $EC2_USERNAME@$EC2_URL hostname -I | xargs echo
-    - name: Setup SSH for EC2 (with stricter key checking)
-      uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
-      with:
-        EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
-        EC2_URL: $EC2_URL
+    - name: SSH to EC2 instance
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/authorized_keys
+        chmod 600 ~/.ssh/authorized_keys
     - name: Create a new file on the EC2 instance with "hello-world"
-      run: ssh $EC2_USERNAME@$EC2_URL "echo 'hello--world' >> new_file.txt"
+      run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "echo "hello-world" >> new_file.txt"
+
+
