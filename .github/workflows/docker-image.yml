@@ -33,13 +33,14 @@ jobs:
     steps:
     - name: Set up SSH key
       run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" >  ~/.ssh/id_rsa
-        chmod 600  ~/.ssh/id_rsa
-        ssh-keyscan -p 22 ${{ secrets.EC2_URL }} >> ~/.ssh/known_hosts
+        mkdir -p /home/runner/.ssh
+        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > /home/runner/.ssh/App_instance_ssh.pem
+        chmod 400 /home/runner/.ssh/App_instance_ssh.pem
+        ssh-keyscan -p 22 ${{ secrets.EC2_URL }} >> /home/runner/.ssh/known_hosts
     # then you can run commands/scripts directly on the EC2 instance e.g.:
     - name: Create a new file on the EC2 instance with "hello-world"
       run: |
         pwd
-        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_URL }} "echo "hello-world" >> new_file.txt"
+        ssh -o StrictHostKeyChecking=no -i /home/runner/.ssh/App_instance_ssh.pem ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_URL }} 'echo "hello-world" >> new_file.txt'
+
 
