@@ -44,4 +44,5 @@ jobs:
         pwd 
         cd 
         cd .ssh
-        ssh -o StrictHostKeyChecking=no -i /home/runner/.ssh/App_instance_ssh.pem $EC2_USERNAME@$EC2_URL "echo "hello world" >> new_file.txt"
+        pwd
+        ssh -o StrictHostKeyChecking=no -i App_instance_ssh.pem $EC2_USERNAME@$EC2_URL "echo "hello world" >> new_file.txt"
