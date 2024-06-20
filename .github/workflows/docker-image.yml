@@ -23,8 +23,8 @@ jobs:
           tags: uzair102/u_repo:image_from_github_actions_v1
   
   deploy_to_ec2:
-  needs: push_to_registry
     name: Deploy to EC2
+    needs: push_to_registry
     runs-on: ubuntu-latest
     env:
       EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
