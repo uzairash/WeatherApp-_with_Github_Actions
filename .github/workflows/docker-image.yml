@@ -41,4 +41,4 @@ jobs:
     - name: Create a new file on the EC2 instance with "hello-world"
       run: |
         pwd
-        ssh -o StrictHostKeyChecking=no -i /home/runner/.ssh/App_instance_ssh.pem ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_URL }} 'echo "hello world" >> new_file.txt'
+        ssh -vvv -o StrictHostKeyChecking=no -i /home/runner/.ssh/App_instance_ssh.pem ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_URL }} 'echo "hello world" >> new_file.txt'
