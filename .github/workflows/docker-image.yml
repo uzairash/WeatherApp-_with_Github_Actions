@@ -2,25 +2,25 @@ name: Build and Push Docker Image to Docker Hub
 # Action already created to build and deploy image to github, congiure Secrets in github Repository 
 on: push
 jobs:
-  # push_to_registry:
-  #   name: push docker image to hub
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: check repository
-  #       uses: actions/checkout@v4
+  push_to_registry:
+    name: push docker image to hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: check repository
+        uses: actions/checkout@v4
 
-  #     - name: login to docker registry
-  #       uses: docker/login-action@v3
-  #       with:
-  #         username: ${{secrets.DOCKERHUB_USERNAME}}
-  #         password: ${{secrets.DOCKERHUB_PASSWORD}}
+      - name: login to docker registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_PASSWORD}}
 
-  #     - name: build and push docker image to registry
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: #sets the context tot the default directory 
-  #         push: true
-  #         tags: uzair102/u_repo:image_from_github_actions_v1
+      - name: build and push docker image to registry
+        uses: docker/build-push-action@v5
+        with:
+          context: #sets the context tot the default directory 
+          push: true
+          tags: uzair102/u_repo:image_from_github_actions_v1
   
   deploy_to_ec2:
     name: Deploy to EC2
